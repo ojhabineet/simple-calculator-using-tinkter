@@ -1,16 +1,55 @@
 import tkinter as tk
+import math
+
 num1 = ''
 num2 = ''
 operator = ''
 firstTime = True
+
 def Addition(num1, num2):
-    return str(int(num1) + int(num2))
+    try:
+        return str(float(num1) + float(num2))
+    except ValueError:
+        return "Error"
+
 def Subtraction(num1, num2):
-    return str(int(num1) - int(num2))
+    try:
+        return str(float(num1) - float(num2))
+    except ValueError:
+        return "Error"
+
 def Multiplication(num1, num2):
-    return str(int(num1) * int(num2))
+    try:
+        return str(float(num1) * float(num2))
+    except ValueError:
+        return "Error"
+
 def Division(num1, num2):
-    return str(int(num1) / int(num2))
+    try:
+        if float(num2) == 0:
+            return "Error: Div by 0"
+        return str(float(num1) / float(num2))
+    except ValueError:
+        return "Error"
+
+def SquareRoot(num):
+    try:
+        val = float(num)
+        if val < 0:
+            return "Error: Neg Sqrt"
+        return str(math.sqrt(val))
+    except ValueError:
+        return "Error"
+
+def Logarithm(num):
+    try:
+        val = float(num)
+        if val <= 0:
+            return "Error: Log <= 0"
+        return str(math.log10(val))
+    except ValueError:
+        return "Error"
+
 def OpChecker(operator, num1, num2):
     if operator == '+':
         return Addition(num1,num2)
@@ -20,206 +59,348 @@ def OpChecker(operator, num1, num2):
         return Division(num1, num2)
     if operator == '*':
         return Multiplication(num1, num2)
-    return ''  
- 
+    
+    return ''
+
 def On_Exitbutton_Click():
     window.destroy()
-def On_Nine_Click():
+
+def On_Number_Click(number):
     global num1
     global num2
     global firstTime
     if firstTime:
-        num1 += '9'
+        num1 += str(number)
     else:
-        num2 += '9'
+        num2 += str(number)
     Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Eight_Click():
+
+def On_Decimal_Click():
     global num1
     global num2
     global firstTime
     if firstTime:
-        num1 += '8'
+        if '.' not in num1:
+            num1 += '.'
     else:
-        num2 += '8'
+        if '.' not in num2:
+            num2 += '.'
     Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Seven_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '7'
-    else:
-        num2 += '7'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Six_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '6'
-    else:
-        num2 += '6'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Five_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '5'
-    else:
-        num2 += '5'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Four_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '4'
-    else:
-        num2 += '4'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Three_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '3'
-    else:
-        num2 += '3'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Two_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '2'
-    else:
-        num2 += '2'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_One_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '1'
-    else:
-        num2 += '1'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Zero_Click():
-    global num1
-    global num2
-    global firstTime
-    if firstTime:
-        num1 += '0'
-    else:
-        num2 += '0'
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Addition_Click():
+
+
+def On_Operator_Click(op):
     global num1
     global num2
     global firstTime
     global operator
     if firstTime:
-        firstTime = False
-        operator = '+'
+        if num1: # Only set operator if num1 is not empty
+            firstTime = False
+            operator = op
     else:
-        num1 = OpChecker(operator, num1, num2)
-        operator = '+'
-        num2 = ''
+        if num1 and num2: # Perform calculation if both numbers exist
+            num1 = OpChecker(operator, num1, num2)
+            operator = op
+            num2 = ''
+        else: # If only num1 exists, just change the operator
+            operator = op
     Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Subtraction_Click():
-    global num1
-    global num2
-    global firstTime
-    global operator
-    if firstTime:
-        firstTime = False
-        operator = '-'
-    else:
-        num1 = OpChecker(operator, num1, num2)
-        operator = '-'
-        num2 = ''
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Multiplication_Click():
-    global num1
-    global num2
-    global firstTime
-    global operator
-    if firstTime:
-        firstTime = False
-        operator = '*'
-    else:
-        num1 = OpChecker(operator, num1, num2)
-        operator = '*'
-        num2 = ''
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
-def On_Division_Click():
-    global num1
-    global num2
-    global firstTime
-    global operator
-    if firstTime:
-        firstTime = False
-        operator = '/'
-    else:
-        num1 = OpChecker(operator, num1, num2)
-        operator = '/'
-        num2 = ''
-    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
+
 def On_Equal_Click():
     global num1
     global num2
     global firstTime
     global operator
-    if not firstTime:
+    if not firstTime and num1 and num2 and operator:
         num1 = OpChecker(operator, num1, num2)
         operator = ''
         num2 = ''
+        firstTime = True # Reset for new calculation
     Numbers.config(text=num1)
 
-    window = tk.Tk()
+def On_Clear_Click():
+    global num1
+    global num2
+    global operator
+    global firstTime
+    num1 = ''
+    num2 = ''
+    operator = ''
+    firstTime = True
+    Numbers.config(text='')
 
+def On_Sqrt_Click():
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if num1:
+        num1 = SquareRoot(num1)
+        num2 = ''
+        operator = ''
+        firstTime = True
+        Numbers.config(text=num1)
+    elif num2 and not firstTime: # If operating on the second number before equals
+        num2 = SquareRoot(num2)
+        Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
 
-Numbers = tk.Label(text = num1 + ' ' + operator + ' ' + num2)
-Numbers.pack(side=tk.TOP)
-NineButton = tk.Button(text = "9", command = On_Nine_Click, height = 3)
-NineButton.pack(side=tk.LEFT)
-EightButton = tk.Button(text = "8", command = On_Eight_Click, height = 3)
-EightButton.pack(side=tk.LEFT)
-SevenButton = tk.Button(text = "7", command = On_Seven_Click, height = 3)
-SevenButton.pack(side=tk.LEFT)
-SixButton = tk.Button(text = "6", command = On_Six_Click, height = 3)
-SixButton.pack(side=tk.LEFT)
-FiveButton = tk.Button(text = "5", command = On_Five_Click, height = 3)
-FiveButton.pack(side=tk.LEFT)
-FourButton = tk.Button(text = "4", command = On_Four_Click, height = 3)
-FourButton.pack(side=tk.LEFT)
-ThreeButton = tk.Button(text = "3", command = On_Three_Click, height = 3)
-ThreeButton.pack(side=tk.LEFT)
-TwoButton = tk.Button(text = "2", command = On_Two_Click, height = 3)
-TwoButton.pack(side=tk.LEFT)
-OneButton = tk.Button(text = "1", command = On_One_Click, height = 3)
-OneButton.pack(side=tk.LEFT)
-ZeroButton = tk.Button(text = "0", command = On_Zero_Click, height = 3)
-ZeroButton.pack(side=tk.LEFT)
-AdditionButton = tk.Button(text='+', command = On_Addition_Click, height = 3)
-AdditionButton.pack(side=tk.LEFT)
-SubtractionButton = tk.Button(text='-', command = On_Subtraction_Click, height = 3)
-SubtractionButton.pack(side=tk.LEFT)
-MultiplicationButton = tk.Button(text='*', command = On_Multiplication_Click, height = 3)
-MultiplicationButton.pack(side=tk.LEFT)
-DivisionButton = tk.Button(text='/', command = On_Division_Click, height = 3)
-DivisionButton.pack(side=tk.LEFT)
-EqualButton = tk.Button(text='=', command = On_Equal_Click, height = 3)
-EqualButton.pack(side=tk.LEFT)
+def On_Log_Click():
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if num1:
+        num1 = Logarithm(num1)
+        num2 = ''
+        operator = ''
+        firstTime = True
+        Numbers.config(text=num1)
+    elif num2 and not firstTime: # If operating on the second number before equals
+        num2 = Logarithm(num2)
+        Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
 
+window = tk.Tk()
+window.title("Simple Calculator")
 
-ExitButton = tk.Button(text = "EXIT", command = On_Exitbutton_Click)
-ExitButton.pack(side=tk.BOTTOM, ipadx = 25)
+Numbers = tk.Label(window, text = num1 + ' ' + operator + ' ' + num2, font=('Arial', 24), anchor='e', bg='lightgray', padx=10, pady=10)
+Numbers.grid(row=0, column=0, columnspan=5, sticky='ew') # Use grid for better layout
+
+# Create buttons using a loop for numbers and a dictionary for operators
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3), ('sqrt', 1, 4),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3), ('log', 2, 4),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3), ('C', 3, 4),
+    ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3)
+]
+
+for (text, row, col) in buttons:
+    if text.isdigit():
+        button = tk.Button(window, text=text, command=lambda t=text: On_Number_Click(t), height=3, width=7)
+    elif text == '.':
+        button = tk.Button(window, text=text, command=On_Decimal_Click, height=3, width=7)
+    elif text in ['+', '-', '*', '/']:
+        button = tk.Button(window, text=text, command=lambda t=text: On_Operator_Click(t), height=3, width=7)
+    elif text == '=':
+        button = tk.Button(window, text=text, command=On_Equal_Click, height=3, width=7, bg='lightblue')
+    elif text == 'sqrt':
+        button = tk.Button(window, text='sqrt', command=On_Sqrt_Click, height=3, width=7, bg='lightgreen')
+    elif text == 'log':
+        button = tk.Button(window, text='log', command=On_Log_Click, height=3, width=7, bg='lightgreen')
+    elif text == 'C':
+        button = tk.Button(window, text='C', command=On_Clear_Click, height=3, width=7, bg='orange')
+    
+    button.grid(row=row, column=col, sticky='nsew', padx=2, pady=2)
+
+# Configure grid to expand with window
+for i in range(5):
+    window.grid_columnconfigure(i, weight=1)
+for i in range(5):
+    window.grid_rowconfigure(i, weight=1)
+
+ExitButton = tk.Button(window, text = "EXIT", command = On_Exitbutton_Click, height = 2, bg='salmon')
+ExitButton.grid(row=5, column=0, columnspan=5, sticky='ew', padx=2, pady=2)
 
 window.mainloop()
+import tkinter as tk
+import math
+
+num1 = ''
+num2 = ''
+operator = ''
+firstTime = True
+
+def Addition(num1, num2):
+    try:
+        return str(float(num1) + float(num2))
+    except ValueError:
+        return "Error"
+
+def Subtraction(num1, num2):
+    try:
+        return str(float(num1) - float(num2))
+    except ValueError:
+        return "Error"
+
+def Multiplication(num1, num2):
+    try:
+        return str(float(num1) * float(num2))
+    except ValueError:
+        return "Error"
+
+def Division(num1, num2):
+    try:
+        if float(num2) == 0:
+            return "Error: Div by 0"
+        return str(float(num1) / float(num2))
+    except ValueError:
+        return "Error"
+
+def SquareRoot(num):
+    try:
+        val = float(num)
+        if val < 0:
+            return "Error: Neg Sqrt"
+        return str(math.sqrt(val))
+    except ValueError:
+        return "Error"
+
+def Logarithm(num):
+    try:
+        val = float(num)
+        if val <= 0:
+            return "Error: Log <= 0"
+        return str(math.log10(val))
+    except ValueError:
+        return "Error"
+
+def OpChecker(operator, num1, num2):
+    if operator == '+':
+        return Addition(num1,num2)
+    if operator == '-':
+        return Subtraction(num1,num2)
+    if operator == '/':
+        return Division(num1, num2)
+    if operator == '*':
+        return Multiplication(num1, num2)
+    
+    return ''
+
+def On_Exitbutton_Click():
+    window.destroy()
+
+def On_Number_Click(number):
+    global num1
+    global num2
+    global firstTime
+    if firstTime:
+        num1 += str(number)
+    else:
+        num2 += str(number)
+    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
+
+def On_Decimal_Click():
+    global num1
+    global num2
+    global firstTime
+    if firstTime:
+        if '.' not in num1:
+            num1 += '.'
+    else:
+        if '.' not in num2:
+            num2 += '.'
+    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
 
 
+def On_Operator_Click(op):
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if firstTime:
+        if num1: # Only set operator if num1 is not empty
+            firstTime = False
+            operator = op
+    else:
+        if num1 and num2: # Perform calculation if both numbers exist
+            num1 = OpChecker(operator, num1, num2)
+            operator = op
+            num2 = ''
+        else: # If only num1 exists, just change the operator
+            operator = op
+    Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
 
+def On_Equal_Click():
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if not firstTime and num1 and num2 and operator:
+        num1 = OpChecker(operator, num1, num2)
+        operator = ''
+        num2 = ''
+        firstTime = True # Reset for new calculation
+    Numbers.config(text=num1)
 
+def On_Clear_Click():
+    global num1
+    global num2
+    global operator
+    global firstTime
+    num1 = ''
+    num2 = ''
+    operator = ''
+    firstTime = True
+    Numbers.config(text='')
 
+def On_Sqrt_Click():
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if num1:
+        num1 = SquareRoot(num1)
+        num2 = ''
+        operator = ''
+        firstTime = True
+        Numbers.config(text=num1)
+    elif num2 and not firstTime: # If operating on the second number before equals
+        num2 = SquareRoot(num2)
+        Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
+
+def On_Log_Click():
+    global num1
+    global num2
+    global firstTime
+    global operator
+    if num1:
+        num1 = Logarithm(num1)
+        num2 = ''
+        operator = ''
+        firstTime = True
+        Numbers.config(text=num1)
+    elif num2 and not firstTime: # If operating on the second number before equals
+        num2 = Logarithm(num2)
+        Numbers.config(text=num1 + ' ' + operator + ' ' + num2)
+
+window = tk.Tk()
+window.title("Simple Calculator")
+
+Numbers = tk.Label(window, text = num1 + ' ' + operator + ' ' + num2, font=('Arial', 24), anchor='e', bg='lightgray', padx=10, pady=10)
+Numbers.grid(row=0, column=0, columnspan=5, sticky='ew') # Use grid for better layout
+
+# Create buttons using a loop for numbers and a dictionary for operators
+buttons = [
+    ('7', 1, 0), ('8', 1, 1), ('9', 1, 2), ('/', 1, 3), ('sqrt', 1, 4),
+    ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3), ('log', 2, 4),
+    ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3), ('C', 3, 4),
+    ('0', 4, 0), ('.', 4, 1), ('=', 4, 2), ('+', 4, 3)
+]
+
+for (text, row, col) in buttons:
+    if text.isdigit():
+        button = tk.Button(window, text=text, command=lambda t=text: On_Number_Click(t), height=3, width=7)
+    elif text == '.':
+        button = tk.Button(window, text=text, command=On_Decimal_Click, height=3, width=7)
+    elif text in ['+', '-', '*', '/']:
+        button = tk.Button(window, text=text, command=lambda t=text: On_Operator_Click(t), height=3, width=7)
+    elif text == '=':
+        button = tk.Button(window, text=text, command=On_Equal_Click, height=3, width=7, bg='lightblue')
+    elif text == 'sqrt':
+        button = tk.Button(window, text='sqrt', command=On_Sqrt_Click, height=3, width=7, bg='lightgreen')
+    elif text == 'log':
+        button = tk.Button(window, text='log', command=On_Log_Click, height=3, width=7, bg='lightgreen')
+    elif text == 'C':
+        button = tk.Button(window, text='C', command=On_Clear_Click, height=3, width=7, bg='orange')
+    
+    button.grid(row=row, column=col, sticky='nsew', padx=2, pady=2)
+
+# Configure grid to expand with window
+for i in range(5):
+    window.grid_columnconfigure(i, weight=1)
+for i in range(5):
+    window.grid_rowconfigure(i, weight=1)
+
+ExitButton = tk.Button(window, text = "EXIT", command = On_Exitbutton_Click, height = 2, bg='salmon')
+ExitButton.grid(row=5, column=0, columnspan=5, sticky='ew', padx=2, pady=2)
+
+window.mainloop()
